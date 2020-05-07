@@ -1,4 +1,4 @@
-from scipy import special
+from scipy.special import softmax
 from sklearn.cluster import KMeans
 import numpy as np
 import pandas as pd
@@ -19,11 +19,24 @@ df = df.drop(['cust_id'], axis=1)
 df_norm = (df - df.min()) / (df.max() - df.min())
 
 # KMeans determinate k
-distortions = []
-K = range(1, 5)
-for k in K:
-    kmeansModel = KMeans(n_clusters=k).fit(df_norm.values)
-    distortions.append(sum(np.min(cdist(df_norm.values, kmeansModel.cluster_centers_, 'euclidean'), axis= 1)) / df_norm.shape[0])
+#distortions = []
+#K = range(1, 5)
+#for k in K:
+#    kmeansModel = KMeans(n_clusters=k).fit(df_norm)
+#    distortions.append(sum(np.min(cdist(df_norm, kmeansModel.cluster_centers_, 'euclidean'), axis= 1)) / df_norm.shape[0])
+#
+#plt.plot(K, distortions, 'bx-')
+#plt.show()
+#
+# We select k = 3
 
-plt.plot(K, distortions, 'bx-')
-plt.show()
+kmeansModel = KMeans(n_clusters=3).fit(df_norm)
+#print(kmeansModel.cluster_centers_)
+dist_list = cdist(df_norm, kmeansModel.cluster_centers_, 'euclidean')
+print(softmax(dist_list[0]))
+out_softmax = []
+for ind in range(len(dist_list)):
+    out_softmax.append(softmax(dist_list[ind]))
+
+#the probabilities of the fuzzy KMeans are:
+print(out_softmax)
