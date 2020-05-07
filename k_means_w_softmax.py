@@ -3,8 +3,6 @@ from sklearn.cluster import KMeans
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from sklearn.model_selection import train_test_split
-from sklearn import preprocessing
 from scipy.spatial.distance import cdist
 
 df = pd.read_csv("cc_general.csv")
@@ -32,8 +30,9 @@ df_norm = (df - df.min()) / (df.max() - df.min())
 
 kmeansModel = KMeans(n_clusters=3).fit(df_norm)
 #print(kmeansModel.cluster_centers_)
+# distances from centers of the cluster and all points in the DataFrame
 dist_list = cdist(df_norm, kmeansModel.cluster_centers_, 'euclidean')
-print(softmax(dist_list[0]))
+# Apply Softmax in the distances
 out_softmax = []
 for ind in range(len(dist_list)):
     out_softmax.append(softmax(dist_list[ind]))
