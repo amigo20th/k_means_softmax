@@ -39,3 +39,5 @@ for ind in range(len(dist_list)):
 
 #the probabilities of the fuzzy KMeans are:
 print(out_softmax)
+
+## I nedd prove with other Datset
