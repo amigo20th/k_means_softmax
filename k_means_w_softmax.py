@@ -17,15 +17,15 @@ df = df.drop(['cust_id'], axis=1)
 df_norm = (df - df.min()) / (df.max() - df.min())
 
 # KMeans determinate k
-#distortions = []
-#K = range(1, 5)
-#for k in K:
-#    kmeansModel = KMeans(n_clusters=k).fit(df_norm)
-#    distortions.append(sum(np.min(cdist(df_norm, kmeansModel.cluster_centers_, 'euclidean'), axis= 1)) / df_norm.shape[0])
-#
-#plt.plot(K, distortions, 'bx-')
-#plt.show()
-#
+distortions = []
+K = range(1, 5)
+for k in K:
+    kmeansModel = KMeans(n_clusters=k).fit(df_norm)
+    distortions.append(sum(np.min(cdist(df_norm, kmeansModel.cluster_centers_, 'euclidean'), axis= 1)) / df_norm.shape[0])
+
+plt.plot(K, distortions, 'bx-')
+plt.show()
+
 # We select k = 3
 
 kmeansModel = KMeans(n_clusters=3).fit(df_norm)
